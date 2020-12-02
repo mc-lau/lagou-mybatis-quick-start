@@ -21,7 +21,7 @@ public class MybatisTest {
             IUserMapper userMapper = sqlSession.getMapper(IUserMapper.class);
             User user = userMapper.selectOne(1);
             List<User> userList = userMapper.selectAll();
-            userList = userMapper.findByIds(new int[]{1,2,3});
+//            userList = userMapper.findByIds(new int[]{1,2,3});
             sqlSession.close();
             System.out.println(user);
             System.out.println(userList);
