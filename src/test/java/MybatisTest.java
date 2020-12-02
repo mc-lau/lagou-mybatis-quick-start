@@ -1,4 +1,4 @@
-import com.lagou.dao.UserMapper;
+import com.lagou.dao.IUserMapper;
 import com.lagou.pojo.User;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -18,11 +18,13 @@ public class MybatisTest {
             SqlSessionFactoryBuilder sqlSessionFactoryBuilder = new SqlSessionFactoryBuilder();
             SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBuilder.build(is);
             SqlSession sqlSession = sqlSessionFactory.openSession();
-            User user = new User();
-            user.setId(3);
-            user = sqlSession.selectOne("com.lagou.dao.UserMapper.selectOne",user);
+            IUserMapper userMapper = sqlSession.getMapper(IUserMapper.class);
+            User user = userMapper.selectOne(1);
+            List<User> userList = userMapper.selectAll();
+            userList = userMapper.findByIds(new int[]{1,2,3});
             sqlSession.close();
             System.out.println(user);
+            System.out.println(userList);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -36,8 +38,9 @@ public class MybatisTest {
             SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBuilder.build(is);
             SqlSession sqlSession = sqlSessionFactory.openSession(true);
             User user = new User();
-            user.setUsername("username4");
-            sqlSession.insert("com.lagou.dao.UserMapper.insert",user);
+            user.setUsername("username5");
+            IUserMapper userMapper = sqlSession.getMapper(IUserMapper.class);
+            userMapper.insert(user);
             sqlSession.close();
         } catch (Exception e) {
             e.printStackTrace();

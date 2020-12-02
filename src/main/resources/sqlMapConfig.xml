@@ -4,19 +4,26 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
+    <properties resource="jdbc.properties"/>
+
+    <typeAliases>
+        <typeAlias type="com.lagou.pojo.User" alias="User"/>
+        <package name="com.lagou.pojo"/>
+    </typeAliases>
+
     <environments default="dev">
         <environment id="dev">
             <transactionManager type="JDBC"></transactionManager>
             <dataSource type="POOLED">
-                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/lagou?useSSL=false"/>
-                <property name="username" value="root"/>
-                <property name="password" value="root1234"/>
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
             </dataSource>
         </environment>
     </environments>
 
     <mappers>
-        <mapper resource="UserMapper.xml"/>
+        <package name="com.lagou.dao"/>
     </mappers>
 </configuration>
