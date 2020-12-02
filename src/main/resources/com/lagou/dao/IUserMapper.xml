@@ -15,8 +15,19 @@
         </association>
     </resultMap>
 
-    <select id="selectOne" resultType="User" parameterType="int">
-        select * from user where id = #{id}
+    <resultMap id="user_order_result_map" type="User">
+        <id property="id" column="id"></id>
+        <id property="username" column="username"></id>
+
+        <collection property="orderList" ofType="Order">
+            <id property="id" column="oid"></id>
+            <result property="uid" column="uid"></result>
+            <result property="orderNumber" column="orderNumber"></result>
+        </collection>
+    </resultMap>
+
+    <select id="selectOne" resultMap="user_order_result_map" parameterType="int">
+        select u.id,u.username,o.id as oid,o.uid,o.orderNumber from user u left join `order` o on u.id=o.uid where u.id = #{id}
     </select>
 
     <insert id="insert" parameterType="User">
